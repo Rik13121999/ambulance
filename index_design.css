@@ -1,0 +1,32 @@
+*{
+	margin:0;
+	padding:0;
+}
+.bih{
+	height:100%;
+	width:100%;
+	background-color: linear-gradient(rgba(0,0,0,0),rgba(255,244,87,2));
+
+}
+
+.carro{
+	height:60%;
+	width:100%;
+	background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.4)),url(car1.jpg);
+	background-position: center;
+	background-size: cover;
+	position: absolute;
+	padding-right: 200px;
+}
+.signup{
+	height:100%;
+	width:100%;
+	background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.4)),url(car1.jpg);
+	background-position: center;
+	background-size: cover;
+	position: absolute;
+	padding-right: 200px;
+}
+.isee{
+	color: white;
+}
