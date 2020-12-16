@@ -44,12 +44,16 @@ if(isset($_POST['reg'])){
   $state=$_POST['state'];
   if(isset($_POST['driving_lic'])){
     $driving_lic=$_POST['driving_lic'];
-    echo("<h1> welcome</h1>");
+    if(strlen($driving_lic)<1){
+       $_SESSION['error'] = '<h2 class="text-center text-danger">All Fields are Required</h2>';
+        header("Location: signup.php");
+        return;
+    }
   }
 
    if ( strlen($name) < 1 || strlen($email) < 1 || strlen($address) < 1  || strlen($district) <1 || strlen($country) <1 || strlen($location) <1){
         $_SESSION['error'] = '<h2 class="text-center text-danger">All Fields are Required</h2>';
-        header("Location: login.php");
+        header("Location: signup.php");
         return;
     }
     if ( strpos($_POST['email'],'@') === false ) {
@@ -63,13 +67,14 @@ if(isset($_POST['reg'])){
           $pass=$_POST['password'];
         }
         else{
-          $_POST['error']='<h3>Password Mismatch</h3>';
+          $_SESSION['error']='<h3  class="text-center text-danger>Password Mismatch</h3>';
+          header("Location: signup.php");
+          return;
         }
       }
     }
 
     if(isset($_POST['driving_lic'])){
-      echo("hello");
       $id=find_location_id($pdo,$location);
       insert_into_user($pdo,$name,$mobile,$email,$address,$pass,$id,1);
       $stmt1 = $pdo->prepare("SELECT * FROM user WHERE (u_name=:u_name) AND (u_mobile=:u_mobile) AND (u_customerORdriver=:u_customerORdriver)");
@@ -106,10 +111,7 @@ if(isset($_POST['reg'])){
 
 
 // Flash pattern
-if ( isset($_SESSION['error']) ) {
-    echo '<p style="color:red">'.$_SESSION['error']."</p>\n";
-    unset($_SESSION['error']);
-}
+
 }
 
 ?>
@@ -120,11 +122,11 @@ if ( isset($_SESSION['error']) ) {
       <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-     <link rel="stylesheet" type="text/css" href="index_design.css">
+    <link rel="stylesheet" type="text/css" href="index_design.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>index</title>
+    <title>registration</title>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -155,6 +157,14 @@ if ( isset($_SESSION['error']) ) {
 <div class="d-flex flex-row">
 
   <div class="p-2"><h4><div class="shadow isee" style="padding-right: 29px;">REGISTRATION</div></h4></div>
+</div>
+<div>
+  <?php
+    if ( isset($_SESSION['error']) ) {
+    echo '<h3 style="color:red">'.$_SESSION['error']."</h3>\n";
+    unset($_SESSION['error']);
+}
+  ?>
 </div>
 <form method="post">
 <div class="d-flex flex-row form-group row" style="    padding-right: 61px;">
@@ -317,12 +327,6 @@ if ( isset($_SESSION['error']) ) {
 
 </div>
 
-
-
-
-
-
-</div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
